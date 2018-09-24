@@ -23,6 +23,12 @@ public final class AmqpAdapterConstants {
      */
     public static final String KEY_CLIENT_DEVICE = "CLIENT_DEVICE";
 
+    /**
+     * The name of the AMQP 1.0 message application property containing the request identifier used to correlate a
+     * command request with the response.
+     */
+    public static final String APP_PROPERTY_REQUEST_ID = "request-id";
+
     private AmqpAdapterConstants() {
         // avoid instantiation
     }
