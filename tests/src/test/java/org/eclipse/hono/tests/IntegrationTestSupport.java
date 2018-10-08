@@ -28,8 +28,12 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
+import org.apache.qpid.proton.message.Message;
+import org.eclipse.hono.client.MessageConsumer;
 import org.eclipse.hono.client.ServiceInvocationException;
+import org.eclipse.hono.client.impl.HonoClientImpl;
 import org.eclipse.hono.config.ClientConfigProperties;
 import org.eclipse.hono.util.BufferResult;
 import org.eclipse.hono.util.Constants;
@@ -468,6 +472,20 @@ public final class IntegrationTestSupport {
 
         final KeyPairGenerator gen = KeyPairGenerator.getInstance("EC");
         return gen.generateKeyPair();
+    }
+
+    /**
+     * Create a client for consuming (e.g empty notification) events from Hono.
+     * 
+     * @param tenantId The tenantId to consumer messages from.
+     * @param messageConsumer The handler to call when an event is consumed.
+     * @return A future that will complete with the consumer once the link has been established.
+     * 
+     * @see HonoClientImpl#createEventConsumer(String, Consumer, io.vertx.core.Handler)
+     */
+    public Future<MessageConsumer> createEventConsumer(final String tenantId, final Consumer<Message> messageConsumer) {
+
+        return honoClient.createEventConsumer(tenantId, messageConsumer, remoteClose -> {});
     }
 
     //----------------------------------< private methods >---

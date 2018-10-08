@@ -25,7 +25,7 @@ import io.vertx.ext.unit.junit.VertxUnitRunner;
  * A Telemetry based integration test for the AMQP adapter.
  */
 @RunWith(VertxUnitRunner.class)
-public class TelemetryAmqpIT extends AmqpAdapterTestBase {
+public class TelemetryAmqpIT extends GeneralAmqpIT {
 
     private static final String TELEMETRY_ENDPOINT = "telemetry";
 

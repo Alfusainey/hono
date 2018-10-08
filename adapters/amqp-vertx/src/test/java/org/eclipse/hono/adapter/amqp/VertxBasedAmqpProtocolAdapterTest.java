@@ -101,6 +101,8 @@ public class VertxBasedAmqpProtocolAdapterTest {
      */
     private static final String TEST_DEVICE = "test-device";
 
+    private static final String TEMPLATE_COMMAND_RESPONSE_ADDRESS = "%s/%s/%s/%s/%s/%d";
+
     private HonoClient tenantServiceClient;
     private HonoClient credentialsServiceClient;
     private HonoClient messagingServiceClient;

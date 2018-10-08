@@ -26,7 +26,7 @@ import io.vertx.ext.unit.junit.VertxUnitRunner;
  * An Event based integration test for the AMQP adapter.
  */
 @RunWith(VertxUnitRunner.class)
-public class EventAmqpIT extends AmqpAdapterTestBase {
+public class EventAmqpIT extends GeneralAmqpIT {
 
     private static final String EVENT_ENDPOINT = "event";
 

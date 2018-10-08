@@ -19,11 +19,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
 
 import org.apache.qpid.proton.message.Message;
 import org.eclipse.hono.client.ClientErrorException;
-import org.eclipse.hono.client.MessageConsumer;
 import org.eclipse.hono.tests.GenericMessageSender;
 import org.eclipse.hono.util.CommandConstants;
 import org.eclipse.hono.util.EventConstants;
@@ -71,11 +69,6 @@ public class CommandAndControlMqttIT extends MqttTestBase {
         tenant = TenantObject.from(tenantId, true);
     }
 
-    private Future<MessageConsumer> createConsumer(final String tenantId, final Consumer<Message> messageConsumer) {
-
-        return helper.honoClient.createEventConsumer(tenantId, messageConsumer, remoteClose -> {});
-    }
-
     private Future<Void> subscribeToCommands(final Handler<MqttPublishMessage> msgHandler) {
         final Future<Void> result = Future.future();
         context.runOnContext(go -> {
@@ -105,7 +98,7 @@ public class CommandAndControlMqttIT extends MqttTestBase {
         final Async setup = ctx.async();
         final Async notificationReceived = ctx.async();
 
-        connectToAdapter(tenant, deviceId, password, () -> createConsumer(tenantId, msg -> {
+        connectToAdapter(tenant, deviceId, password, () -> helper.createEventConsumer(tenantId, msg -> {
             // expect empty notification with TTD -1
             ctx.assertEquals(EventConstants.CONTENT_TYPE_EMPTY_NOTIFICATION, msg.getContentType());
             final TimeUntilDisconnectNotification notification = TimeUntilDisconnectNotification.fromMessage(msg).orElse(null);
@@ -189,7 +182,7 @@ public class CommandAndControlMqttIT extends MqttTestBase {
         final Async setup = ctx.async();
         final Async notificationReceived = ctx.async();
 
-        connectToAdapter(tenant, deviceId, password, () -> createConsumer(tenantId, msg -> {
+        connectToAdapter(tenant, deviceId, password, () -> helper.createEventConsumer(tenantId, msg -> {
             // expect empty notification with TTD -1
             ctx.assertEquals(EventConstants.CONTENT_TYPE_EMPTY_NOTIFICATION, msg.getContentType());
             final TimeUntilDisconnectNotification notification = TimeUntilDisconnectNotification.fromMessage(msg).orElse(null);
