@@ -537,6 +537,7 @@ public final class VertxBasedAmqpProtocolAdapter extends AbstractProtocolAdapter
                         .failedFuture(new ClientErrorException(HttpURLConnection.HTTP_BAD_REQUEST, "unknown endpoint"));
             }
         }).recover(t -> {
+            LOG.info(t.getMessage());
             if (!context.isRemotelySettled()) {
                 // client wants to be informed that the message cannot be processed.
                 context.handleFailure(t);
